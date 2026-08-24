@@ -82,12 +82,14 @@ body:before{
  background:rgba(0,234,255,.09);
  top:-300px;
  left:-200px;
+ animation:ambientOne 12s ease-in-out infinite alternate;
 }
 
 .glow.two{
  background:rgba(126,70,255,.08);
  right:-300px;
  bottom:-300px;
+ animation:ambientTwo 15s ease-in-out infinite alternate;
 }
 
 h1,
@@ -111,6 +113,107 @@ h1,
  font-family:var(--font-ui);
 }
 
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes ambientOne{
+ from{
+  transform:translate3d(0,0,0) scale(1);
+ }
+ to{
+  transform:translate3d(80px,60px,0) scale(1.12);
+ }
+}
+
+@keyframes ambientTwo{
+ from{
+  transform:translate3d(0,0,0) scale(1);
+ }
+ to{
+  transform:translate3d(-70px,-50px,0) scale(1.15);
+ }
+}
+
+@keyframes pulse{
+ 50%{
+  transform:scale(1.6);
+  opacity:.45;
+ }
+}
+
+@keyframes heroFade{
+ from{
+  opacity:0;
+  transform:translateY(22px);
+ }
+ to{
+  opacity:1;
+  transform:none;
+ }
+}
+
+@keyframes eyebrowGlow{
+ 50%{
+  box-shadow:0 0 25px rgba(0,234,255,.08);
+ }
+}
+
+@keyframes orb{
+ 50%{
+  transform:translateY(-22px) rotate(12deg) scale(1.04);
+ }
+}
+
+@keyframes spin{
+ to{
+  transform:rotateX(68deg) rotateZ(345deg);
+ }
+}
+
+@keyframes floatCard{
+ 50%{
+  transform:rotateY(-5deg) rotateX(2deg) translateY(-16px);
+ }
+}
+
+@keyframes scan{
+ 0%{
+  transform:translateX(-20%);
+ }
+ 100%{
+  transform:translateX(20%);
+ }
+}
+
+@keyframes verifyPulse{
+ 0%,100%{
+  box-shadow:0 0 0 rgba(0,234,255,0);
+ }
+ 50%{
+  box-shadow:0 0 30px rgba(0,234,255,.15);
+ }
+}
+
+@keyframes inquiryFloat{
+ 0%,100%{
+  transform:translateY(0);
+ }
+ 50%{
+  transform:translateY(-6px);
+ }
+}
+
+@keyframes inquiryPulse{
+ 0%{
+  transform:scale(.92);
+  opacity:.7;
+ }
+ 70%,100%{
+  transform:scale(1.25);
+  opacity:0;
+ }
+}
 
 /* =========================
    NAVIGATION
@@ -133,6 +236,17 @@ nav{
  border-radius:22px;
  z-index:50;
  box-shadow:0 10px 50px rgba(0,0,0,.3);
+ transition:
+  box-shadow .4s ease,
+  border-color .4s ease,
+  background .4s ease;
+}
+
+nav:hover{
+ border-color:rgba(0,234,255,.18);
+ box-shadow:
+ 0 15px 60px rgba(0,0,0,.4),
+ 0 0 35px rgba(0,234,255,.04);
 }
 
 .logo{
@@ -217,6 +331,8 @@ nav{
 }
 
 .nav-btn{
+ position:relative;
+ overflow:hidden;
  text-decoration:none;
  color:#001015;
  background:#fff;
@@ -282,7 +398,6 @@ nav{
  transform:rotate(-45deg);
 }
 
-
 /* =========================
    HERO
 ========================= */
@@ -296,6 +411,24 @@ nav{
  align-items:center;
  gap:40px;
  padding-top:100px;
+}
+
+.hero-content .eyebrow{
+ animation:
+  heroFade .9s ease both,
+  eyebrowGlow 3s ease-in-out 1s infinite;
+}
+
+.hero-content h1{
+ animation:heroFade .9s .12s ease both;
+}
+
+.hero-content .hero-copy{
+ animation:heroFade .9s .24s ease both;
+}
+
+.hero-content .hero-actions{
+ animation:heroFade .9s .36s ease both;
 }
 
 .eyebrow{
@@ -321,13 +454,6 @@ nav{
  background:#35ff9b;
  box-shadow:0 0 12px #35ff9b;
  animation:pulse 1.7s infinite;
-}
-
-@keyframes pulse{
- 50%{
-  transform:scale(1.6);
-  opacity:.45;
- }
 }
 
 h1{
@@ -373,6 +499,8 @@ h1{
 }
 
 .primary{
+ position:relative;
+ overflow:hidden;
  gap:10px;
  color:#001116;
  background:linear-gradient(135deg,#fff,#9befff);
@@ -391,8 +519,33 @@ h1{
 
 .secondary:hover{
  background:rgba(255,255,255,.08);
+ transform:translateY(-3px);
 }
 
+/* =========================
+   BUTTON SHINE
+========================= */
+
+.primary:after,
+.submit-btn:after,
+.nav-btn:after{
+ content:"";
+ position:absolute;
+ top:-100%;
+ left:-50%;
+ width:30%;
+ height:300%;
+ background:rgba(255,255,255,.45);
+ transform:rotate(25deg);
+ transition:left .7s ease;
+ pointer-events:none;
+}
+
+.primary:hover:after,
+.submit-btn:hover:after,
+.nav-btn:hover:after{
+ left:130%;
+}
 
 /* =========================
    HERO VISUAL
@@ -422,12 +575,6 @@ h1{
  animation:orb 8s ease-in-out infinite;
 }
 
-@keyframes orb{
- 50%{
-  transform:translateY(-22px) rotate(12deg) scale(1.04);
- }
-}
-
 .ring{
  position:absolute;
  border:1px solid rgba(0,234,255,.22);
@@ -453,12 +600,6 @@ h1{
  animation:spin 13s linear infinite;
 }
 
-@keyframes spin{
- to{
-  transform:rotateX(68deg) rotateZ(345deg);
- }
-}
-
 .holo-card{
  position:relative;
  width:355px;
@@ -477,12 +618,14 @@ h1{
  0 35px 100px rgba(0,0,0,.5),
  inset 0 1px rgba(255,255,255,.16);
  animation:floatCard 5s ease-in-out infinite;
+ transition:box-shadow .4s ease;
 }
 
-@keyframes floatCard{
- 50%{
-  transform:rotateY(-5deg) rotateX(2deg) translateY(-16px);
- }
+.holo-card:hover{
+ box-shadow:
+ 0 45px 120px rgba(0,0,0,.6),
+ 0 0 50px rgba(0,234,255,.08),
+ inset 0 1px rgba(255,255,255,.18);
 }
 
 .card-top{
@@ -554,16 +697,6 @@ h1{
  animation:scan 2.4s linear infinite;
 }
 
-@keyframes scan{
- 0%{
-  transform:translateX(-20%);
- }
- 100%{
-  transform:translateX(20%);
- }
-}
-
-
 /* =========================
    COMMON SECTIONS
 ========================= */
@@ -603,7 +736,6 @@ section{
  font-size:14px;
 }
 
-
 /* =========================
    STATS
 ========================= */
@@ -620,12 +752,18 @@ section{
  background:var(--glass);
  border-radius:22px;
  backdrop-filter:blur(15px);
- transition:.35s;
+ transition:
+  transform .5s cubic-bezier(.2,.8,.2,1),
+  border-color .4s ease,
+  box-shadow .5s ease;
 }
 
 .stat:hover{
- transform:translateY(-6px);
+ transform:translateY(-8px) scale(1.02);
  border-color:rgba(0,234,255,.28);
+ box-shadow:
+ 0 20px 55px rgba(0,0,0,.3),
+ 0 0 30px rgba(0,234,255,.06);
 }
 
 .stat-number{
@@ -643,7 +781,6 @@ section{
  color:#8290a4;
  font-size:11px;
 }
-
 
 /* =========================
    COURSES
@@ -668,7 +805,10 @@ section{
  );
  border-radius:25px;
  overflow:hidden;
- transition:.4s;
+ transition:
+  transform .5s cubic-bezier(.2,.8,.2,1),
+  border-color .4s ease,
+  box-shadow .5s ease;
 }
 
 .course:before{
@@ -681,12 +821,20 @@ section{
  top:-80px;
  background:rgba(0,234,255,.09);
  filter:blur(20px);
+ transition:.5s;
 }
 
 .course:hover{
- transform:translateY(-9px);
+ transform:translateY(-10px) scale(1.015);
  border-color:rgba(0,234,255,.3);
- box-shadow:0 30px 60px rgba(0,0,0,.25);
+ box-shadow:
+ 0 30px 60px rgba(0,0,0,.25),
+ 0 0 35px rgba(0,234,255,.05);
+}
+
+.course:hover:before{
+ transform:scale(1.5);
+ background:rgba(0,234,255,.13);
 }
 
 .course-icon{
@@ -700,6 +848,16 @@ section{
  font-size:19px;
  font-weight:700;
  margin-bottom:24px;
+ transition:
+  transform .45s cubic-bezier(.2,.8,.2,1),
+  background .4s ease,
+  box-shadow .4s ease;
+}
+
+.course:hover .course-icon{
+ transform:rotate(-6deg) scale(1.1);
+ background:rgba(0,234,255,.1);
+ box-shadow:0 0 25px rgba(0,234,255,.12);
 }
 
 .course h3{
@@ -714,10 +872,9 @@ section{
  margin-top:11px;
 }
 
-
-/* ==================================================
-   JIIT PHOTO GALLERY
-================================================== */
+/* =========================
+   GALLERY
+========================= */
 
 .gallery-section{
  position:relative;
@@ -749,6 +906,10 @@ section{
  background:#080c14;
  cursor:pointer;
  isolation:isolate;
+ transition:
+  transform .55s cubic-bezier(.2,.8,.2,1),
+  border-color .4s ease,
+  box-shadow .5s ease;
 }
 
 .gallery-item:nth-child(1){
@@ -818,6 +979,14 @@ section{
  transition:.4s;
 }
 
+.gallery-item:hover{
+ transform:translateY(-7px) scale(1.01);
+ border-color:rgba(0,234,255,.3);
+ box-shadow:
+ 0 25px 65px rgba(0,0,0,.35),
+ 0 0 35px rgba(0,234,255,.06);
+}
+
 .gallery-item:hover img{
  transform:scale(1.09);
  filter:saturate(1.15) brightness(1.08);
@@ -839,6 +1008,11 @@ section{
  right:20px;
  bottom:18px;
  z-index:2;
+ transition:transform .4s ease;
+}
+
+.gallery-item:hover .gallery-caption{
+ transform:translateY(-4px);
 }
 
 .gallery-caption span{
@@ -884,9 +1058,8 @@ section{
  transform:none;
 }
 
-
 /* =========================
-   IMAGE LIGHTBOX
+   LIGHTBOX
 ========================= */
 
 .lightbox{
@@ -916,6 +1089,12 @@ section{
  display:flex;
  flex-direction:column;
  align-items:center;
+ transform:scale(.94) translateY(15px);
+ transition:transform .45s cubic-bezier(.2,.8,.2,1);
+}
+
+.lightbox.show .lightbox-content{
+ transform:scale(1) translateY(0);
 }
 
 .lightbox img{
@@ -958,7 +1137,6 @@ section{
  transform:rotate(90deg);
 }
 
-
 /* =========================
    ABOUT
 ========================= */
@@ -977,6 +1155,16 @@ section{
  border-radius:28px;
  position:relative;
  overflow:hidden;
+ transition:
+  transform .5s cubic-bezier(.2,.8,.2,1),
+  border-color .4s ease,
+  box-shadow .5s ease;
+}
+
+.about-box:hover{
+ border-color:rgba(0,234,255,.22);
+ box-shadow:0 30px 80px rgba(0,0,0,.25);
+ transform:translateY(-5px);
 }
 
 .about-box h3{
@@ -1016,7 +1204,6 @@ section{
  font-weight:500;
 }
 
-
 /* =========================
    VERIFICATION
 ========================= */
@@ -1036,6 +1223,15 @@ section{
  align-items:center;
  justify-content:space-between;
  gap:30px;
+ transition:
+  transform .5s cubic-bezier(.2,.8,.2,1),
+  border-color .4s ease,
+  box-shadow .5s ease;
+}
+
+.verify:hover{
+ transform:translateY(-5px);
+ border-color:rgba(0,234,255,.3);
 }
 
 .verify-left{
@@ -1053,6 +1249,7 @@ section{
  background:rgba(0,234,255,.08);
  border:1px solid rgba(0,234,255,.2);
  font-size:30px;
+ animation:verifyPulse 3s ease-in-out infinite;
 }
 
 .verify h3{
@@ -1077,7 +1274,6 @@ section{
  font-weight:800;
  letter-spacing:1.5px;
 }
-
 
 /* =========================
    INQUIRY
@@ -1106,6 +1302,15 @@ section{
  rgba(255,255,255,.035);
  backdrop-filter:blur(20px);
  box-shadow:0 35px 100px rgba(0,0,0,.35);
+ transition:
+  transform .5s cubic-bezier(.2,.8,.2,1),
+  border-color .4s ease,
+  box-shadow .5s ease;
+}
+
+.inquiry-box:hover{
+ transform:translateY(-4px);
+ border-color:rgba(0,234,255,.22);
 }
 
 .inquiry-form{
@@ -1157,6 +1362,7 @@ section{
 .input-group textarea:focus{
  border-color:rgba(0,234,255,.5);
  box-shadow:0 0 25px rgba(0,234,255,.08);
+ transform:translateY(-1px);
 }
 
 .input-group select option{
@@ -1164,6 +1370,8 @@ section{
 }
 
 .submit-btn{
+ position:relative;
+ overflow:hidden;
  grid-column:1/-1;
  border:0;
  cursor:pointer;
@@ -1186,7 +1394,6 @@ section{
 .submit-btn:disabled{
  cursor:wait;
 }
-
 
 /* =========================
    CONTACT
@@ -1232,6 +1439,17 @@ section{
  border:1px solid rgba(255,255,255,.14);
  backdrop-filter:blur(24px);
  box-shadow:0 35px 100px rgba(0,0,0,.4);
+ transition:
+  transform .5s cubic-bezier(.2,.8,.2,1),
+  border-color .4s ease,
+  box-shadow .5s ease;
+}
+
+.contact-card:hover{
+ border-color:rgba(0,234,255,.22);
+ box-shadow:
+ 0 40px 110px rgba(0,0,0,.45),
+ 0 0 40px rgba(0,234,255,.04);
 }
 
 .contact-top{
@@ -1259,6 +1477,7 @@ section{
  border-radius:50%;
  background:#35ff9b;
  box-shadow:0 0 12px #35ff9b;
+ animation:pulse 1.7s infinite;
 }
 
 .contact-main{
@@ -1278,7 +1497,11 @@ section{
  border-radius:18px;
  border:1px solid rgba(255,255,255,.065);
  background:rgba(255,255,255,.025);
- transition:.3s;
+ transition:
+  transform .4s cubic-bezier(.2,.8,.2,1),
+  border-color .4s ease,
+  background .4s ease,
+  box-shadow .4s ease;
 }
 
 .contact-link{
@@ -1288,9 +1511,12 @@ section{
 
 .contact-link:hover,
 .contact-location:hover{
- transform:translateX(6px);
+ transform:translateX(7px) scale(1.01);
  border-color:rgba(0,234,255,.25);
  background:rgba(0,234,255,.045);
+ box-shadow:
+ 0 10px 35px rgba(0,0,0,.2),
+ 0 0 25px rgba(0,234,255,.04);
 }
 
 .contact-icon{
@@ -1304,6 +1530,14 @@ section{
  font-size:19px;
  background:rgba(0,234,255,.055);
  border:1px solid rgba(0,234,255,.17);
+ transition:
+  transform .4s ease,
+  box-shadow .4s ease;
+}
+
+.contact-link:hover .contact-icon{
+ transform:rotate(-8deg) scale(1.08);
+ box-shadow:0 0 25px rgba(0,234,255,.12);
 }
 
 .contact-detail{
@@ -1348,6 +1582,11 @@ section{
  color:#6f8298;
  font-family:var(--font-display);
  font-size:20px;
+ transition:transform .3s ease;
+}
+
+.contact-link:hover .contact-arrow{
+ transform:translateX(4px);
 }
 
 .contact-bottom{
@@ -1363,7 +1602,6 @@ section{
  letter-spacing:1.5px;
 }
 
-
 /* =========================
    FOOTER
 ========================= */
@@ -1376,6 +1614,8 @@ footer{
  display:flex;
  justify-content:space-between;
  align-items:center;
+ flex-wrap:wrap;
+ gap:10px 20px;
  color:#657286;
  font-size:10px;
 }
@@ -1389,6 +1629,103 @@ footer strong{
  letter-spacing:2px;
 }
 
+.developer-credit{
+ width:100%;
+ text-align:center;
+ margin-top:14px;
+ padding-top:12px;
+ border-top:1px solid rgba(255,255,255,.05);
+ color:#4f5c70;
+ font-family:var(--font-ui);
+ font-size:8px;
+ font-weight:600;
+ letter-spacing:.5px;
+}
+
+.developer-credit a{
+ color:#6f849d;
+ text-decoration:none;
+ transition:.3s;
+}
+
+.developer-credit a:hover{
+ color:#73efff;
+ text-shadow:0 0 12px rgba(0,234,255,.4);
+}
+
+/* =========================
+   FLOATING INQUIRY
+========================= */
+
+.floating-inquiry{
+ position:fixed;
+ right:24px;
+ bottom:24px;
+ z-index:120;
+ display:flex;
+ align-items:center;
+ gap:10px;
+ padding:12px 15px 12px 12px;
+ color:#001116;
+ text-decoration:none;
+ font-family:var(--font-ui);
+ font-size:9px;
+ font-weight:900;
+ letter-spacing:1px;
+ background:linear-gradient(
+  135deg,
+  #ffffff,
+  #8ceeff
+ );
+ border:1px solid rgba(255,255,255,.65);
+ border-radius:16px;
+ box-shadow:
+ 0 12px 40px rgba(0,0,0,.45),
+ 0 0 35px rgba(0,234,255,.18);
+ backdrop-filter:blur(14px);
+ transition:
+  transform .35s cubic-bezier(.2,.8,.2,1),
+  box-shadow .35s ease;
+ animation:inquiryFloat 3s ease-in-out infinite;
+}
+
+.floating-inquiry:before{
+ content:"";
+ position:absolute;
+ inset:-3px;
+ border-radius:19px;
+ border:1px solid rgba(0,234,255,.3);
+ opacity:0;
+ animation:inquiryPulse 2.4s ease-out infinite;
+}
+
+.floating-inquiry:hover{
+ transform:translateY(-6px) scale(1.04);
+ box-shadow:
+ 0 18px 55px rgba(0,0,0,.5),
+ 0 0 45px rgba(0,234,255,.32);
+}
+
+.floating-inquiry-icon{
+ width:28px;
+ height:28px;
+ display:grid;
+ place-items:center;
+ border-radius:9px;
+ background:#001116;
+ color:#7ceeff;
+ font-size:13px;
+ box-shadow:0 0 18px rgba(0,234,255,.25);
+}
+
+.floating-inquiry-arrow{
+ font-size:14px;
+ transition:transform .3s ease;
+}
+
+.floating-inquiry:hover .floating-inquiry-arrow{
+ transform:translateX(4px);
+}
 
 /* =========================
    REVEAL
@@ -1396,17 +1733,19 @@ footer strong{
 
 .reveal{
  opacity:0;
- transform:translateY(35px);
+ transform:translateY(45px) scale(.98);
+ filter:blur(4px);
  transition:
- opacity .8s ease,
- transform .8s ease;
+  opacity .9s ease,
+  transform .9s cubic-bezier(.2,.8,.2,1),
+  filter .9s ease;
 }
 
 .reveal.active{
  opacity:1;
  transform:none;
+ filter:none;
 }
-
 
 /* =========================
    RESPONSIVE
@@ -1538,7 +1877,6 @@ footer strong{
 
 }
 
-
 @media(max-width:600px){
 
  .gallery-grid{
@@ -1614,8 +1952,28 @@ footer strong{
   gap:8px;
  }
 
-}
+ .developer-credit{
+  text-align:left;
+  font-size:7px;
+ }
 
+ .floating-inquiry{
+  right:14px;
+  bottom:14px;
+  padding:11px 13px 11px 10px;
+  border-radius:14px;
+ }
+
+ .floating-inquiry-icon{
+  width:26px;
+  height:26px;
+ }
+
+ .floating-inquiry-text{
+  font-size:8px;
+ }
+
+}
 
 @media(max-width:480px){
 
@@ -1658,7 +2016,6 @@ footer strong{
 
 }
 
-
 /* =========================
    REDUCED MOTION
 ========================= */
@@ -1678,14 +2035,12 @@ footer strong{
 </style>
 </head>
 
-
 <body>
 
 <div id="space"></div>
 
 <div class="glow one"></div>
 <div class="glow two"></div>
-
 
 <!-- =========================
      NAVIGATION
@@ -1705,7 +2060,6 @@ footer strong{
   </div>
 
  </a>
-
 
  <div class="nav-links" id="navLinks">
 
@@ -1731,11 +2085,9 @@ footer strong{
 
  </div>
 
-
  <a class="nav-btn" href="#inquiry">
   INQUIRE NOW
  </a>
-
 
  <button
   class="menu-toggle"
@@ -1749,10 +2101,7 @@ footer strong{
 
 </nav>
 
-
-
 <main id="home">
-
 
 <!-- =========================
      HERO
@@ -1793,7 +2142,6 @@ footer strong{
 
  </div>
 
-
  <div class="hero-visual" id="tilt">
 
   <div class="orb"></div>
@@ -1801,7 +2149,6 @@ footer strong{
   <div class="ring r1"></div>
   <div class="ring r2"></div>
   <div class="ring r3"></div>
-
 
   <div class="holo-card">
 
@@ -1815,7 +2162,6 @@ footer strong{
 
    </div>
 
-
    <div class="card-title">
     JHARGRAM INSTITUTE of INFORMATION TECHNOLOGY
    </div>
@@ -1825,7 +2171,6 @@ footer strong{
    </div>
 
    <div class="scan"></div>
-
 
    <div style="
     margin-top:25px;
@@ -1848,8 +2193,6 @@ footer strong{
  </div>
 
 </section>
-
-
 
 <!-- =========================
      STATS
@@ -1891,8 +2234,6 @@ footer strong{
 
 </section>
 
-
-
 <!-- =========================
      COURSES
 ========================= -->
@@ -1917,7 +2258,6 @@ footer strong{
 
  </div>
 
-
  <div class="course-grid">
 
   <article class="course reveal">
@@ -1929,7 +2269,6 @@ footer strong{
    </p>
   </article>
 
-
   <article class="course reveal">
    <div class="course-icon">▦</div>
    <h3>Office Applications</h3>
@@ -1938,7 +2277,6 @@ footer strong{
     presentations and productivity tools.
    </p>
   </article>
-
 
   <article class="course reveal">
    <div class="course-icon">&lt;/&gt;</div>
@@ -1949,7 +2287,6 @@ footer strong{
    </p>
   </article>
 
-
   <article class="course reveal">
    <div class="course-icon">◈</div>
    <h3>Internet & Digital Skills</h3>
@@ -1959,7 +2296,6 @@ footer strong{
    </p>
   </article>
 
-
   <article class="course reveal">
    <div class="course-icon">⌁</div>
    <h3>Graphic & Creative Tools</h3>
@@ -1968,7 +2304,6 @@ footer strong{
     layouts and creative computer-based workflows.
    </p>
   </article>
-
 
   <article class="course reveal">
    <div class="course-icon">AI</div>
@@ -1983,11 +2318,9 @@ footer strong{
 
 </section>
 
-
-
-<!-- ==========================================================
-     JIIT PHOTO GALLERY
-========================================================== -->
+<!-- =========================
+     GALLERY
+========================= -->
 
 <section id="gallery" class="gallery-section">
 
@@ -2005,7 +2338,6 @@ footer strong{
 
   </div>
 
-
   <p class="section-desc">
    Explore our campus, computer labs, classrooms, office
    and memorable events through the JIIT photo gallery.
@@ -2013,265 +2345,201 @@ footer strong{
 
  </div>
 
-
  <div class="gallery-grid">
 
-
-  <!-- 01 -->
   <div
    class="gallery-item reveal"
    data-image="images/jiit lab.jpg"
    data-title="JIIT Computer Lab"
   >
-
    <img
     src="images/jiit lab.jpg"
     alt="JIIT Computer Lab"
     loading="lazy"
    >
 
-   <div class="gallery-view">
-    ↗
-   </div>
+   <div class="gallery-view">↗</div>
 
    <div class="gallery-caption">
     <span>Technology</span>
     <h3>JIIT Computer Lab</h3>
    </div>
-
   </div>
 
-
-  <!-- 02 -->
   <div
    class="gallery-item reveal"
    data-image="images/jiit campus.jpg"
    data-title="JIIT Campus"
   >
-
    <img
     src="images/jiit campus.jpg"
     alt="JIIT Campus"
     loading="lazy"
    >
 
-   <div class="gallery-view">
-    ↗
-   </div>
+   <div class="gallery-view">↗</div>
 
    <div class="gallery-caption">
     <span>Campus</span>
     <h3>JIIT Campus</h3>
    </div>
-
   </div>
 
-
-  <!-- 03 -->
   <div
    class="gallery-item reveal"
    data-image="images/jiit campus2.jpg"
    data-title="JIIT Campus View"
   >
-
    <img
     src="images/jiit campus2.jpg"
     alt="JIIT Campus View"
     loading="lazy"
    >
 
-   <div class="gallery-view">
-    ↗
-   </div>
+   <div class="gallery-view">↗</div>
 
    <div class="gallery-caption">
     <span>Campus</span>
     <h3>JIIT Campus View</h3>
    </div>
-
   </div>
 
-
-  <!-- 04 -->
   <div
    class="gallery-item reveal"
    data-image="images/jiit lab2.jpg"
    data-title="JIIT Computer Lab 2"
   >
-
    <img
     src="images/jiit lab2.jpg"
     alt="JIIT Computer Lab 2"
     loading="lazy"
    >
 
-   <div class="gallery-view">
-    ↗
-   </div>
+   <div class="gallery-view">↗</div>
 
    <div class="gallery-caption">
     <span>Practical Learning</span>
     <h3>JIIT Lab</h3>
    </div>
-
   </div>
 
-
-  <!-- 05 -->
   <div
    class="gallery-item reveal"
    data-image="images/jiit lab3.jpg"
    data-title="JIIT Computer Lab 3"
   >
-
    <img
     src="images/jiit lab3.jpg"
     alt="JIIT Computer Lab 3"
     loading="lazy"
    >
 
-   <div class="gallery-view">
-    ↗
-   </div>
+   <div class="gallery-view">↗</div>
 
    <div class="gallery-caption">
     <span>Technology</span>
     <h3>JIIT Lab 03</h3>
    </div>
-
   </div>
 
-
-  <!-- 06 -->
   <div
    class="gallery-item reveal"
    data-image="images/jiit classroom.jpg"
    data-title="JIIT Classroom"
   >
-
    <img
     src="images/jiit classroom.jpg"
     alt="JIIT Classroom"
     loading="lazy"
    >
 
-   <div class="gallery-view">
-    ↗
-   </div>
+   <div class="gallery-view">↗</div>
 
    <div class="gallery-caption">
     <span>Learning</span>
     <h3>JIIT Classroom</h3>
    </div>
-
   </div>
 
-
-  <!-- 07 -->
   <div
    class="gallery-item reveal"
    data-image="images/jiit classroom2.jpg"
    data-title="JIIT Classroom 2"
   >
-
    <img
     src="images/jiit classroom2.jpg"
     alt="JIIT Classroom 2"
     loading="lazy"
    >
 
-   <div class="gallery-view">
-    ↗
-   </div>
+   <div class="gallery-view">↗</div>
 
    <div class="gallery-caption">
     <span>Education</span>
     <h3>JIIT Classroom 02</h3>
    </div>
-
   </div>
 
-
-  <!-- 08 -->
   <div
    class="gallery-item reveal"
    data-image="images/event jiit.jpg"
    data-title="JIIT Event"
   >
-
    <img
     src="images/event jiit.jpg"
     alt="JIIT Event"
     loading="lazy"
    >
 
-   <div class="gallery-view">
-    ↗
-   </div>
+   <div class="gallery-view">↗</div>
 
    <div class="gallery-caption">
     <span>Events</span>
     <h3>JIIT Event</h3>
    </div>
-
   </div>
 
-
-  <!-- 09 -->
   <div
    class="gallery-item reveal"
    data-image="images/event jiit2.jpg"
    data-title="JIIT Event 2"
   >
-
    <img
     src="images/event jiit2.jpg"
     alt="JIIT Event 2"
     loading="lazy"
    >
 
-   <div class="gallery-view">
-    ↗
-   </div>
+   <div class="gallery-view">↗</div>
 
    <div class="gallery-caption">
     <span>Moments</span>
     <h3>JIIT Event 02</h3>
    </div>
-
   </div>
 
-
-  <!-- 10 -->
   <div
    class="gallery-item reveal"
    data-image="images/jiit office.jpg"
    data-title="JIIT Office"
   >
-
    <img
     src="images/jiit office.jpg"
     alt="JIIT Office"
     loading="lazy"
    >
 
-   <div class="gallery-view">
-    ↗
-   </div>
+   <div class="gallery-view">↗</div>
 
    <div class="gallery-caption">
     <span>Administration</span>
     <h3>JIIT Office</h3>
    </div>
-
   </div>
-
 
  </div>
 
 </section>
-
-
 
 <!-- =========================
      LIGHTBOX
@@ -2310,8 +2578,6 @@ footer strong{
 
 </div>
 
-
-
 <!-- =========================
      ABOUT
 ========================= -->
@@ -2339,7 +2605,6 @@ footer strong{
 
   </div>
 
-
   <div class="about-box reveal">
 
    <h3>
@@ -2352,7 +2617,6 @@ footer strong{
     for students, learners and technology enthusiasts.
    </p>
 
-
    <div class="info-list">
 
     <div class="info">
@@ -2362,9 +2626,7 @@ footer strong{
 
     <div class="info">
      <span>Full Name</span>
-     <span>
-      Jhargram Institute of Information Technology
-     </span>
+     <span>Jhargram Institute of Information Technology</span>
     </div>
 
     <div class="info">
@@ -2374,9 +2636,7 @@ footer strong{
 
     <div class="info">
      <span>Focus</span>
-     <span>
-      Computer & Information Technology
-     </span>
+     <span>Computer & Information Technology</span>
     </div>
 
     <div class="info">
@@ -2391,8 +2651,6 @@ footer strong{
  </div>
 
 </section>
-
-
 
 <!-- =========================
      VERIFICATION
@@ -2422,7 +2680,6 @@ footer strong{
 
   </div>
 
-
   <div class="verified">
    VERIFIED STATUS
   </div>
@@ -2430,8 +2687,6 @@ footer strong{
  </div>
 
 </section>
-
-
 
 <!-- =========================
      INQUIRY
@@ -2459,7 +2714,6 @@ footer strong{
 
   </div>
 
-
   <div class="inquiry-box reveal">
 
    <form
@@ -2476,10 +2730,12 @@ footer strong{
      value="8bc20582-d866-4a5c-aa7d-1ca705d9fa23"
     >
 
+    <!-- UPDATED EMAIL RECIPIENT -->
+
     <input
      type="hidden"
      name="to"
-     value="jiitgopiballavpur@gmail.com"
+     value="gopiballavpurnbce@gmail.com"
     >
 
     <input
@@ -2500,7 +2756,6 @@ footer strong{
      value="email"
     >
 
-
     <input
      type="checkbox"
      name="botcheck"
@@ -2508,7 +2763,6 @@ footer strong{
      tabindex="-1"
      autocomplete="off"
     >
-
 
     <div class="input-group">
 
@@ -2528,7 +2782,6 @@ footer strong{
      >
 
     </div>
-
 
     <div class="input-group">
 
@@ -2550,7 +2803,6 @@ footer strong{
 
     </div>
 
-
     <div class="input-group">
 
      <label for="email">
@@ -2567,7 +2819,6 @@ footer strong{
      >
 
     </div>
-
 
     <div class="input-group">
 
@@ -2612,7 +2863,6 @@ footer strong{
 
     </div>
 
-
     <div class="input-group full">
 
      <label for="message">
@@ -2627,7 +2877,6 @@ footer strong{
      ></textarea>
 
     </div>
-
 
     <button
      type="submit"
@@ -2644,8 +2893,6 @@ footer strong{
  </div>
 
 </section>
-
-
 
 <!-- =========================
      CONTACT
@@ -2673,7 +2920,6 @@ footer strong{
 
   </div>
 
-
   <div class="contact-card">
 
    <div class="contact-top">
@@ -2688,7 +2934,6 @@ footer strong{
     </span>
 
    </div>
-
 
    <div class="contact-main">
 
@@ -2717,10 +2962,11 @@ footer strong{
 
     </a>
 
+    <!-- UPDATED EMAIL -->
 
     <a
      class="contact-link"
-     href="mailto:jiitgopiballavpur@gmail.com"
+     href="mailto:gopiballavpurnbce@gmail.com"
     >
 
      <span class="contact-icon">
@@ -2733,7 +2979,7 @@ footer strong{
        EMAIL
       </small>
 
-      jiitgopiballavpur@gmail.com
+      gopiballavpurnbce@gmail.com
 
      </span>
 
@@ -2742,7 +2988,6 @@ footer strong{
      </span>
 
     </a>
-
 
     <div class="contact-location">
 
@@ -2774,7 +3019,6 @@ footer strong{
 
    </div>
 
-
    <div class="contact-bottom">
 
     <span>
@@ -2793,10 +3037,7 @@ footer strong{
 
 </section>
 
-
 </main>
-
-
 
 <!-- =========================
      FOOTER
@@ -2815,9 +3056,36 @@ footer strong{
   TCFB 0000903
  </div>
 
+ <div class="developer-credit">
+  For any issue contact developer:
+  <a href="mailto:subhamiam@gmail.com">
+   subhamiam@gmail.com
+  </a>
+ </div>
+
 </footer>
 
+<!-- =========================
+     ALWAYS VISIBLE INQUIRY
+========================= -->
 
+<a
+ class="floating-inquiry"
+ href="#inquiry"
+ aria-label="Open inquiry form"
+>
+ <span class="floating-inquiry-icon">
+  ✦
+ </span>
+
+ <span class="floating-inquiry-text">
+  INQUIRE NOW
+ </span>
+
+ <span class="floating-inquiry-arrow">
+  →
+ </span>
+</a>
 
 <script>
 
@@ -2836,7 +3104,6 @@ menuToggle.addEventListener("click",()=>{
 
 });
 
-
 document.querySelectorAll(".nav-links a").forEach(link=>{
 
  link.addEventListener("click",()=>{
@@ -2849,13 +3116,11 @@ document.querySelectorAll(".nav-links a").forEach(link=>{
 
 });
 
-
 /* ==================================================
    ACTIVE NAV
 ================================================== */
 
 const sections=document.querySelectorAll("main section[id]");
-
 const navItems=document.querySelectorAll(".nav-links a");
 
 window.addEventListener("scroll",()=>{
@@ -2872,7 +3137,6 @@ window.addEventListener("scroll",()=>{
 
  });
 
-
  navItems.forEach(link=>{
 
   link.classList.toggle(
@@ -2883,7 +3147,6 @@ window.addEventListener("scroll",()=>{
  });
 
 });
-
 
 /* ==================================================
    THREE.JS BACKGROUND
@@ -2899,7 +3162,6 @@ const camera=new THREE.PerspectiveCamera(
 );
 
 camera.position.z=5;
-
 
 const renderer=new THREE.WebGLRenderer({
  antialias:true,
@@ -2919,16 +3181,13 @@ document
  .getElementById("space")
  .appendChild(renderer.domElement);
 
-
 const particleCount=
  window.innerWidth<700 ? 800 : 1500;
-
 
 const geometry=new THREE.BufferGeometry();
 
 const positions=
  new Float32Array(particleCount*3);
-
 
 for(let i=0;i<particleCount;i++){
 
@@ -2943,7 +3202,6 @@ for(let i=0;i<particleCount;i++){
 
 }
 
-
 geometry.setAttribute(
  "position",
  new THREE.BufferAttribute(
@@ -2951,7 +3209,6 @@ geometry.setAttribute(
   3
  )
 );
-
 
 const material=new THREE.PointsMaterial({
 
@@ -2965,14 +3222,12 @@ const material=new THREE.PointsMaterial({
 
 });
 
-
 const stars=new THREE.Points(
  geometry,
  material
 );
 
 scene.add(stars);
-
 
 function animate(){
 
@@ -2991,7 +3246,6 @@ function animate(){
 
 animate();
 
-
 window.addEventListener("resize",()=>{
 
  camera.aspect=
@@ -3006,14 +3260,12 @@ window.addEventListener("resize",()=>{
 
 });
 
-
 /* ==================================================
    MOUSE PARALLAX
 ================================================== */
 
 let mouseX=0;
 let mouseY=0;
-
 
 document.addEventListener("mousemove",e=>{
 
@@ -3023,27 +3275,17 @@ document.addEventListener("mousemove",e=>{
  mouseY=
   e.clientY/window.innerHeight-.5;
 
-
  const visual=
   document.querySelector(".hero-visual");
-
 
  if(visual){
 
   visual.style.transform=
-   `translate(${mouseX*10}px,${mouseY*8}px)`;
+   `translate3d(${mouseX*10}px,${mouseY*8}px,0)`;
 
  }
 
-
- stars.rotation.y=
-  mouseX*.08;
-
- stars.rotation.x=
-  mouseY*.05;
-
 });
-
 
 /* ==================================================
    SCROLL REVEAL
@@ -3066,11 +3308,9 @@ const observer=
   threshold:.12
  });
 
-
 document
  .querySelectorAll(".reveal")
  .forEach(el=>observer.observe(el));
-
 
 /* ==================================================
    3D CARD TILT
@@ -3081,7 +3321,6 @@ const card=
 
 const heroVisual=
  document.querySelector(".hero-visual");
-
 
 heroVisual.addEventListener(
  "mousemove",
@@ -3096,13 +3335,11 @@ heroVisual.addEventListener(
   const y=
    e.clientY-rect.top;
 
-
   const rotateY=
    ((x/rect.width)-.5)*18;
 
   const rotateX=
    ((y/rect.height)-.5)*-18;
-
 
   card.style.animation="none";
 
@@ -3113,7 +3350,6 @@ heroVisual.addEventListener(
 
  });
 
-
 heroVisual.addEventListener(
  "mouseleave",
  ()=>{
@@ -3123,9 +3359,8 @@ heroVisual.addEventListener(
 
  });
 
-
 /* ==================================================
-   JIIT IMAGE GALLERY LIGHTBOX
+   IMAGE GALLERY LIGHTBOX
 ================================================== */
 
 const galleryItems=
@@ -3143,7 +3378,6 @@ const lightboxTitle=
 const lightboxClose=
  document.getElementById("lightboxClose");
 
-
 galleryItems.forEach(item=>{
 
  item.addEventListener("click",()=>{
@@ -3153,7 +3387,6 @@ galleryItems.forEach(item=>{
 
   const title=
    item.getAttribute("data-title");
-
 
   lightboxImage.src=image;
 
@@ -3169,7 +3402,6 @@ galleryItems.forEach(item=>{
 
 });
 
-
 function closeLightbox(){
 
  lightbox.classList.remove("show");
@@ -3178,12 +3410,10 @@ function closeLightbox(){
 
 }
 
-
 lightboxClose.addEventListener(
  "click",
  closeLightbox
 );
-
 
 lightbox.addEventListener(
  "click",
@@ -3197,7 +3427,6 @@ lightbox.addEventListener(
 
  });
 
-
 document.addEventListener(
  "keydown",
  e=>{
@@ -3210,7 +3439,6 @@ document.addEventListener(
 
  });
 
-
 /* ==================================================
    SECURE JIIT INQUIRY
 ================================================== */
@@ -3221,7 +3449,6 @@ const inquiryForm=
 const submitButton=
  document.getElementById("submitInquiry");
 
-
 if(inquiryForm){
 
  inquiryForm.addEventListener(
@@ -3230,37 +3457,31 @@ if(inquiryForm){
 
    event.preventDefault();
 
-
    if(submitButton.disabled){
 
     return;
 
    }
 
-
    const name=
     document.getElementById("name")
     .value
     .trim();
-
 
    const phone=
     document.getElementById("phone")
     .value
     .trim();
 
-
    const email=
     document.getElementById("email")
     .value
     .trim();
 
-
    const message=
     document.getElementById("message")
     .value
     .trim();
-
 
    if(name.length<2){
 
@@ -3270,10 +3491,8 @@ if(inquiryForm){
 
    }
 
-
    const phonePattern=
     /^[0-9+\-\s()]{10,15}$/;
-
 
    if(!phonePattern.test(phone)){
 
@@ -3285,12 +3504,10 @@ if(inquiryForm){
 
    }
 
-
    if(email){
 
     const emailPattern=
      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 
     if(!emailPattern.test(email)){
 
@@ -3304,7 +3521,6 @@ if(inquiryForm){
 
    }
 
-
    if(message.length>2000){
 
     alert(
@@ -3315,10 +3531,8 @@ if(inquiryForm){
 
    }
 
-
    const originalText=
     submitButton.innerHTML;
-
 
    submitButton.disabled=true;
 
@@ -3329,12 +3543,10 @@ if(inquiryForm){
 
    submitButton.style.cursor="wait";
 
-
    try{
 
     const formData=
      new FormData(inquiryForm);
-
 
     const response=
      await fetch(
@@ -3348,10 +3560,8 @@ if(inquiryForm){
       }
      );
 
-
     const result=
      await response.json();
-
 
     if(
      response.ok &&
@@ -3369,9 +3579,7 @@ if(inquiryForm){
      submitButton.style.background=
       "linear-gradient(135deg,#7dffc4,#dffff0)";
 
-
      inquiryForm.reset();
-
 
      setTimeout(()=>{
 
@@ -3388,7 +3596,6 @@ if(inquiryForm){
 
      },4000);
 
-
     }else{
 
      throw new Error(
@@ -3398,14 +3605,12 @@ if(inquiryForm){
 
     }
 
-
    }catch(error){
 
     console.error(
      "JIIT Inquiry Error:",
      error
     );
-
 
     submitButton.innerHTML=
      "⚠ TRY AGAIN";
@@ -3419,7 +3624,6 @@ if(inquiryForm){
 
     submitButton.style.background=
      "linear-gradient(135deg,#ffb4b4,#fff)";
-
 
     setTimeout(()=>{
 
@@ -3438,14 +3642,12 @@ if(inquiryForm){
 
 }
 
-
 /* ==================================================
    CONTACT CARD GLOW
 ================================================== */
 
 const contactCard=
  document.querySelector(".contact-card");
-
 
 if(contactCard){
 
@@ -3456,16 +3658,13 @@ if(contactCard){
    const rect=
     contactCard.getBoundingClientRect();
 
-
    const x=
     ((e.clientX-rect.left)/
      rect.width)*100;
 
-
    const y=
     ((e.clientY-rect.top)/
      rect.height)*100;
-
 
    contactCard.style.background=
 
@@ -3489,6 +3688,34 @@ if(contactCard){
  );
 
 }
+
+/* ==================================================
+   SMOOTH FLOATING BUTTON SCROLL OFFSET
+================================================== */
+
+document.querySelectorAll('a[href="#inquiry"]').forEach(button=>{
+
+ button.addEventListener("click",()=>{
+
+  setTimeout(()=>{
+
+   const inquiry=
+    document.getElementById("inquiry");
+
+   if(inquiry){
+
+    window.scrollBy({
+     top:-20,
+     behavior:"smooth"
+    });
+
+   }
+
+  },50);
+
+ });
+
+});
 
 </script>
 
